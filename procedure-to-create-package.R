@@ -1,5 +1,7 @@
 # Procedure to create a package from scratch
 
+# Check this: https://lbusett.netlify.app/post/building-a-website-with-pkgdown-a-short-guide/
+
 # PACKAGE CREATION
 # Create package
 usethis::create_package("C:/Antonio/packages/spqdata")
