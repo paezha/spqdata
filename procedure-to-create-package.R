@@ -23,6 +23,7 @@ usethis::use_mit_license("Antonio Paez")
 # Edit DESCRIPTION
 devtools::document()
 
+
 # As an alternative use_ccby_license()
 #usethis::use_tidy_description()
 # Use README.Rmd which is superior to README.md
