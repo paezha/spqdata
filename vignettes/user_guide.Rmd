@@ -1,0 +1,363 @@
+---
+title: "spqdata user guide"
+subtitle: "The user guide <br>  <br>  <br>"
+author:
+- Fernando A. López, Technical University of Cartagena (Spain)
+- Román Mínguez, University of Castilla-La Mancha (Spain)
+- Antonio Páez, McMaster University (Canada)
+- Manuel Ruiz, Technical University of Cartagena (Spain) <br> <br> <br>
+date: '2021-07-04 <br>  <br> <br>'
+output:
+  bookdown::html_document2:
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 2
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+    toc_title: Article Outline
+linkcolor: red
+link-citations: yes
+bibliography: ["bibliospq.bib"]
+vignette: |
+  %\VignetteIndexEntry{spsur user guide}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown} 
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+Esta guía está diseñada para mostrar el funcionamiento del paquete **spqdata** para testar dependencia espacial en datos cualitativos
+
+## Datos
+
+En esta guia se usaran dos conjuntos de datos como ejemplos:
+
+- **Spain**: La división de España en provincias. Es una geometría de polígonos que tiene *islas*
+
+- **FastFood**: El ejemplo de Páez et al en JGS. Es una geometría de puntos
+
+
+```{r, message = FALSE, collapse = TRUE}
+library(spqdata)
+data("Spain", package = "spqdata")
+data("FastFood", package = "spqdata")
+```
+
+- Se pueden generar datos con estructura espacial
+
+## DGP
+
+Es posible generar procesos espaciales con estructura utilizando la función **dgp.spq** de la misma manera que en @Ruiz2012
+
+```{r}
+rm(list = ls())
+set.seed(123)
+N <- 100
+cx <- runif(N)
+cy <- runif(N)
+coor <- cbind(cx,cy)
+p <- c(1/6,3/6,2/6)
+rho = 0.5
+listw <- spdep::nb2listw(knn2nb(knearneigh(coor, k = 4)))
+fx <- dgp.spq(list = listw, p = p, rho = rho)
+```
+
+Un simple plot
+
+```{r}
+ggplot(data.frame(fx=fx,cx=cx,cy=cy), aes(x=cx, y=cy, color=fx)) + 
+    geom_point(size=6) +
+    theme_bw()
+```
+
+
+# Q test
+
+- El test Q está basado en m-historias
+- Se pueden observar las m-historias y generarlas con distintos algoritmos
+
+## m-historias
+
+- **m.surround** es la función que genera m-historias.
+
+- El output es un objeto de la clase m_surr
+
+- El cálculo de las h-historias con una función específica tiene 
+como principal objetivo que el usuario  
+analice las características del conjunto de m-historias. Mediante el método \code{plot()} el usuario puede explorar la coherencia de las m-historias.
+
+Obtain m-surroundings with degree of overlapping r:
+
+```{r}
+m = 3
+r = 1
+mh <- m.surround(x = cbind(cx,cy), m = m, r = r)
+class(mh)
+```
+
+## Métodos para la clase m_surr
+
+Hay tres métodos desarrollados para esta clase: print, summary y plot
+
+- **print** lista las m-historias
+
+- **summary** resumen de las carácterísticas de las m-historias
+
+```{r}
+summary(mh)
+```
+
+- **plot** Muestra la estructura espacial de las m-historias 
+
+```{r plot mh}
+plot(mh, type = 1)
+```
+
+- El argumento **control** permite modificar algunas carácterísticas de la m-historia. 
+- Básicamente con **control** se pueden 'podar' m-historias no coherentes.
+
+```{r plot mh prune}
+control <- list (dtmaxknn = 10)
+mh.prune <- m.surround(x = coor, m = m, r = r, control = control)
+plot(mh.prune)
+```
+
+## El test Q
+
+- La función **Q.test** obtiene el test Q desarrolado en [@Ruiz2012]
+
+```{r}
+q.test <- Q.test(fx = fx, coor = coor, m = 3, r = 1)
+```
+
+- El output es un objeto de la clase **spqtest** 
+- Genera una lista con el resultado para símbolos basados en permutaciones (standard) como en combinaciones (equivalent).
+
+## Métodos para spqtest
+
+```{r}
+summary(q.test)
+```
+
+```{r}
+plot(q.test)
+```
+
+## El test Q para un objeto sf
+
+- El input de **Q.test** puede también ser un objeto sf o un dataframe
+
+```{r}
+# Case 3: With a sf object with isolated areas
+data("Spain")
+f1 <- ~ MenWoman
+q.test.sf <- Q.test(formula = f1, data = spain.sf, m = 3, r = 1)
+```
+
+* El método \code{plot}
+
+```{r}
+plot(q.test.sf)
+```
+
+
+# QMap test
+
+
+- Test **QMap** publicado en @Ruiz2012b
+
+- La función **Q.map.test** obtiene el test QMap
+
+## El test QMap
+
+```{r}
+p <- c(1/6,3/6,2/6)
+rho = 0.5
+QY1 <- dgp.spq(p = p, listw = listw, rho = rho)
+rho = 0.8
+QY2 <- dgp.spq(p = p, listw = listw, rho = rho)
+dt = data.frame(QY1,QY2)
+m = 3
+r = 1
+formula <- ~ QY1 + QY2
+control <- list(dtmaxknn = 10)
+qmap <- Q.map.test(formula = formula, data = dt, coor = coor, m = m, r = r, type ="combinations", control = control)
+```
+
+- El output de la función **Q.Map** es un objeto de la clase **qmap** y **htest**
+
+## Métodos para clase qmap
+
+- El objeto qmap es una lista con dos elementos. Cada elemento es un objeto de la clase **htext**
+
+```{r}
+print(qmap[[1]])
+```
+
+- El método **plot** obtiene la distribución de simbolos con los intervalos de confianza especificados por el usuario.
+
+```{r}
+plot(qmap, ci=.6)
+```
+
+# Runs tests
+
+## Global Runs test
+
+- La función **sp.runs.test** obtiene el test de rachas espacial
+
+```{r}
+listw <- knearneigh(coor, k = 3)
+srq <- sp.runs.test(fx = fx, listw = listw)
+```
+
+- El output es un objeto de las clases **sprunstest** y **htest**
+
+## Metodos para clase spruntest
+
+- Hay implementados dos métodos para objetos de esta clase: \code{print} y \code{plot}
+
+```{r}
+print(srq)
+```
+
+```{r}
+plot(srq)
+```
+
+## Local Runs test
+
+- La función **local.sp.runs.test** calcula los test locales basadps en rachas
+
+## Local Runs test asintótico
+
+- Version asintótica
+
+```{r}
+lsrq <- local.sp.runs.test(fx = fx, listw = listw, alternative = "less")
+```
+
+- El método **print** lista los estadísticos
+
+```{r}
+print(lsrq)
+```
+
+- El método **plot** identifica las localizaciones con test significativos
+
+```{r}
+plot(lsrq, sig = 0.05)
+```
+
+## Local Runs test boots
+
+- Version boot (permutaciones) con un objeto sf
+
+```{r}
+data(Spain)
+listw <- spdep::poly2nb(as(spain.sf,"Spatial"), queen = FALSE)
+plot(spain.sf["MenWoman"])
+formula <- ~ MenWoman
+# Boots Version
+lsrq <- local.sp.runs.test(formula = formula, data = spain.sf, listw = listw, distr ="bootstrap", nsim = 199)
+plot(lsrq, sf = spain.sf, sig = 0.10)
+```
+
+# scan test
+
+- De la familia de test scan para identificar clusters definidos para distintas 
+distribuciones hay dos que se aplican a procesos espaciales de tipo cualitativo 
+
+- El output es un objeto de las clases **scantest** y **htest**
+
+- Ver @Kanaroglou2016
+
+- El test no necesita la matriz W
+
+- El test contrasta la nula de independencia pero añade información adicional señalando uno o varios clústeres con distribición espacial diferencial del resto.
+
+- No tiene distribución asintótica. La significatividad se obtiene por remuestreo permutacional
+
+
+## scan bernoulli
+
+- Para porcesos espaciales con dos categorías
+
+```{r}
+formula <- ~ MenWoman
+scan.spain <- scan.test(formula = formula, data = spain.sf, case="men", nsim = 99, distr = "bernoulli")
+print(scan.spain)
+```
+
+## scan multinomial
+
+- Para porcesos espaciales con tres o más categorías
+
+```{r}
+data(FastFood)
+formula <- ~ Type
+scan.fastfood <- scan.test(formula = formula, data = FastFood.sf, nsim = 99, distr = "multinomial", windows="elliptic", nv = 100)
+print(scan.fastfood)
+```
+
+## metodos scan
+
+- Hay dos métodos para aplicar a objetos **scantest**
+
+```{r}
+summary(scan.fastfood)
+```
+
+```{r}
+plot(scan.spain, sf = spain.sf)
+```
+
+```{r}
+# plot.scantest(scan.fastfood, sf = FastFood.sf)
+```
+
+# Similarity test
+
+El papel de @Farber2014 desarrolla un test de similaridad
+
+## Test de similaridad
+
+la función similarity.test calcula el test de similaridad tanto para distribición asintótica como por remuestreo permutacional.
+
+```{r}
+coor <- cbind(FastFood.sf$Lon,FastFood.sf$Lat)
+listw <- spdep::knearneigh(coor, k = 4)
+formula <- ~ Type
+similarity <- similarity.test(formula = formula, data = FastFood.sf, listw = listw)
+print(similarity)
+```
+
+
+# join-count test
+
+- Se ha **wrapeado** las funciones de **spdep** para distribuciones bernoulli y multinomial. Se pueden utilizar distribuciones asintóticas o Monte Carlo (permutaciones)
+
+## distribución asintótica
+
+```{r}
+f1 <- ~ Older65 + MenWoman
+jc1 <- jc.test(formula = f1, data = spain.sf, distr = "asymptotic", alternative = "greater", zero.policy = TRUE)
+summary(jc1)
+```
+
+## distribución Monte Carlo
+
+```{r}
+jc1 <- jc.test(formula = f1, data = spain.sf, distr = "mc", alternative = "greater", zero.policy = TRUE)
+summary(jc1)
+```
+
+# References
