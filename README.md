@@ -10,7 +10,7 @@
 Status](https://api.netlify.com/api/v1/badges/29eeb07d-6569-4a9a-99a7-ad8e96929d88/deploy-status)](https://app.netlify.com/sites/spqdata/deploys)
 <!-- badges: end -->
 
-The goal of spqdata is to …
+The goal of spqdata is to analyze
 
 ## Installation
 
