@@ -1,6 +1,6 @@
 Package: spqdata
 Title: A package for the exploratory analysis of cross-sectional spatial qualitative data
-Version: 0.1.0
+Version: 0.1.00
 Authors@R: 
     c(person(given = "Román",
            family = "Minguez Salido",
