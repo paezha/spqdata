@@ -341,7 +341,7 @@ print(similarity)
 ```
 
 
-# join-count test
+# Join-count test
 
 - Se ha **wrapeado** las funciones de **spdep** para distribuciones bernoulli y multinomial. Se pueden utilizar distribuciones asintóticas o Monte Carlo (permutaciones)
 
