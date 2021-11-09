@@ -6,6 +6,7 @@
 # Create package
 usethis::create_package("C:/Antonio/packages/spqdata")
 
+
 usethis::use_git()
 usethis::use_git_ignore("procedure-to-create-package.R")
 usethis::use_github()
