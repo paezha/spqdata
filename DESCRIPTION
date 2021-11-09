@@ -1,15 +1,29 @@
 Package: spqdata
-Title: What the Package Does (One Line, Title Case)
+Title: A package for the exploratory analysis of spatial qualitative data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    c(person(given = "Román",
+           family = "Minguez Salido",
+           role = c("aut"),
+           email = "Roman.Minguez@uclm.es",
+           comment = c(ORCID = "0000-0002-0490-3181")),
+      person(given = "Fernando",
+           family = "López Hernandez",
+           role = c("aut"),
+           email = "fernando.lopez@upct.es",
+           comment = c(ORCID = "0000-0002-5397-9748")),
+      person(given = "Manuel",
+           family = "Ruiz Marin",
+           role = c("aut"),
+           email = "manuel.ruiz@upct.es",
+           comment = c(ORCID = "0000-0001-9228-6410")),
+      person(given = "Antonio",
+           family = "Páez",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           email = "paezha@mcmaster.ca",
+           comment = c(ORCID = "0000-0001-6912-9919")))
+Description: A package for the exploratory analysis of qualitative data with georeferences.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

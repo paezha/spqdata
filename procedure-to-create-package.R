@@ -2,16 +2,32 @@
 
 # PACKAGE CREATION
 # Create package
-usethis::create_package("C:/Antonio/packages/packr")
+usethis::create_package("C:/Antonio/packages/spqdata")
+
+
+usethis::use_git()
+usethis::use_git_ignore("procedure-to-create-package.R")
+usethis::use_github()
+usethis::use_build_ignore("procedure-to-create-package.R")
+
+usethis::use_pkgdown()
+pkgdown::build_site()
+
+usethis::use_readme_rmd()
+devtools::build_readme()
+
 # Modify license
 usethis::use_mit_license("Antonio Paez")
+# Edit DESCRIPTION
+devtools::document()
+
 # As an alternative use_ccby_license()
 #usethis::use_tidy_description()
 # Use README.Rmd which is superior to README.md
 usethis::use_readme_rmd()
-# Add to the yaml header the following: 
+# Add to the yaml header the following:
 # ---
-# output: 
+# output:
 #  github_document:
 #  pandoc_args: --webtex
 #---
@@ -58,7 +74,7 @@ devtools::build_readme()
 # SAFETY: OPTIONAL!
 usethis::use_git_ignore("data-raw")
 
-# Set up git 
+# Set up git
 usethis::use_git()
 usethis::use_github()
 usethis::use_github_action("pkgdown")
