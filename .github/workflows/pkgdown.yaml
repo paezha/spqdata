@@ -34,3 +34,6 @@ jobs:
         run: |
           npm install netlify-cli -g
           netlify deploy --prod
+        with:
+          publish-dir: './docs'
+          production-branch: master
