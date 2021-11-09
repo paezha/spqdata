@@ -4,6 +4,8 @@
 # spqdata
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/paezha/spqdata/workflows/R-CMD-check/badge.svg)](https://github.com/paezha/spqdata/actions)
 <!-- badges: end -->
 
 The goal of spqdata is to …

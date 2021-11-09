@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^LICENSE\.md$
 ^procedure-to-create-package\.R$
+^\.github$
