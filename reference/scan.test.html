@@ -671,7 +671,7 @@ Clustering and co-occurrence of cancer types: A comparison of techniques with an
 <span class='r-out co'><span class='r-pr'>#&gt;</span>         na.strings, flush, fill, strip.white, quiet, blank.lines.skip, </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>         multi.line, comment.char, allowEscapes, encoding, skipNul))</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x556115ea21c8&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x55ab1e24ae70&gt;</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: namespace:base&gt;</span>
 <span class='r-in'><span class='fu'><a href='methods_scantest.html'>plot.scantest</a></span><span class='op'>(</span><span class='va'>scan</span><span class='op'>)</span></span>
 <span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in plot.scantest(scan):</span> could not find function "plot.scantest"</span>
@@ -686,7 +686,7 @@ Clustering and co-occurrence of cancer types: A comparison of techniques with an
 <span class='r-in'><span class='va'>rho</span> <span class='op'>&lt;-</span> <span class='fl'>0.5</span></span>
 <span class='r-in'><span class='va'>fx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dgp.spq.html'>dgp.spq</a></span><span class='op'>(</span>p <span class='op'>=</span> <span class='va'>p</span>, listw <span class='op'>=</span> <span class='va'>listw</span>, rho <span class='op'>=</span> <span class='va'>rho</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>scan</span> <span class='op'>&lt;-</span> <span class='fu'>scan.test</span><span class='op'>(</span>fx <span class='op'>=</span> <span class='va'>fx</span>, nsim <span class='op'>=</span> <span class='fl'>19</span>, coor <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>cx</span>,<span class='va'>cy</span><span class='op'>)</span>, nv <span class='op'>=</span> <span class='fl'>30</span>, distr <span class='op'>=</span> <span class='st'>"multinomial"</span>,windows<span class='op'>=</span><span class='st'>"elliptic"</span><span class='op'>)</span></span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>A total of 213 clusters has the same value of the statistic. Report as MLC only the firt</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>A total of 221 clusters has the same value of the statistic. Report as MLC only the firt</span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>scan</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 	Scan test. Distribution: multinomial</span>
@@ -694,9 +694,9 @@ Clustering and co-occurrence of cancer types: A comparison of techniques with an
 <span class='r-out co'><span class='r-pr'>#&gt;</span> data:  fx</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> scan-loglik = 33.928, p-value &lt; 2.2e-16</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> sample estimates:</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>                  A     B     C Sum</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> cases.expect 10.02  9.99  9.99  30</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> cases.observ  6.00 11.00 13.00  30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  A     B    C Sum</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cases.expect 10.02  9.99 9.99  30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cases.observ 13.00 12.00 5.00  30</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-in'><span class='fu'><a href='methods_scantest.html'>plot.scantest</a></span><span class='op'>(</span><span class='va'>scan</span><span class='op'>)</span></span>
 <span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in plot.scantest(scan):</span> could not find function "plot.scantest"</span>
